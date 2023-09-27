@@ -24,7 +24,7 @@ const BankInfoTicker = ({ data, speed = 2 }) => {
     const combinedData = [...data, ...data].join('   ');
 
     return (
-        <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', position: 'relative', background: 'rgb(0,76,76, 0.6)', height: '25px' }}>
+        <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', position: 'fixed', top: '0', background: 'rgb(34, 114, 255, 0.9)', height: '25px', borderBottom: '3px solid rgba(255,255,255,0.75) ' }}>
             <span
                 ref={tickerRef}
                 style={{

@@ -1,14 +1,28 @@
+import styled from "styled-components"
+
+
+const Footers = styled.footer`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150px;
+    p {
+        margin: 5px;
+    }
+`
+
+
 function Footer() {
 
 
     return (
-        <footer>
-            <i class="fa-brands fa-connectdevelop"></i>
-            <h2>Contact us: </h2>
+        <Footers>
+            <img src="/ether.png" className="logo_img"></img>
+            <h3>Contact us: </h3>
             <p>test@gmail.com</p>
-            <br></br>
             <p>Project from Sharcoux, 2023</p>
-        </footer>
+        </Footers>
     )
 }
 

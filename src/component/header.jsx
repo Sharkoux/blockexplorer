@@ -8,11 +8,16 @@ const Headers = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem;
-    margin: 50px;
+    padding: 25px;
+    margin: 28px;
     margin-left: 100px;
     margin-right: 100px;
-    border-bottom: 2px solid #eaeaea;
+    border-bottom: 3px solid #eaeaea;
+    position: fixed;
+    top: 0;
+    width: 90%;
+    background-color: rgb(255,255,255, 0.9);
+    padding-bottom: 70px;
     .logo {
         font-size: 1.5rem;
         font-weight: 700;
@@ -21,7 +26,7 @@ const Headers = styled.header`
     .logo_container {
         display: flex;
         align-items: center;
-        margin-bottom: 50px;
+        margin-top: 20px;
     }
     .logo_img {
         width: 2.5rem;
@@ -34,8 +39,9 @@ const Headers = styled.header`
         justify-content: space-between;
         width: 30%;
         padding-right: 50px;
+        margin-top: 20px;
         .links {
-            color: rgb(205,92,92, 0.8);
+            color: rgb(0,0,0, 0.7);
         }
         .links:hover {
             color: black;

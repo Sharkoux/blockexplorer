@@ -8,17 +8,39 @@ const SearchBars = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    width: 600px;
+    width: 1200px;
     height: 50px;
     margin: auto;
     select {
         width: 150px;
-        height: 30px;
+        height: 42px;
         border-radius: 5px 0px 0px 5px;
+        border: 0;
+    }
+    select:focus {
+        outline: none;
     }
     input {
-        width: 400px;
-        height: 30px;
+        width: 1000px;
+        height: 40px;
+        margin: 0;
+        border: 0;
+    }
+    input:focus {
+        outline: none;
+    }
+    button {
+        width: 60px;
+        height: 42px;
+        border-radius: 0px 5px 5px 0px;
+        border: 0;
+        background-color: rgb(192,192,192, 0.7);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: rgb(34, 114, 255, 0.8);
     }
 `
 
@@ -29,8 +51,8 @@ function SearchBar() {
 
     return (
         <SearchBars>
-            <select name="All filter" >
-                <option value="All filter">All filter</option>
+            <select >
+                <option value="All filter" >All filter</option>
                 <option value="Address">Address</option>
                 <option value="Tokens">Tokens</option>
             </select>

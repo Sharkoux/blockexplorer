@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
     }
     
     span {
-        color: rgb(205,92,92, 0.8);
+        color: rgb(34, 114, 255, 0.8);
     }
 `
 
