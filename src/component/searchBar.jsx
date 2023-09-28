@@ -8,9 +8,11 @@ const SearchBars = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     height: 50px;
     margin: auto;
+    padding-bottom: 60px;
     select {
         width: 150px;
         height: 42px;

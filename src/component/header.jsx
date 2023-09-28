@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import BankInfoTicker from "./slider"
+import BankInfoTicker from "./InfoTicker"
 
 const Headers = styled.header`
     display: flex;

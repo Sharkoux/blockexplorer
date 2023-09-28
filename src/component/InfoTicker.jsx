@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useGetData from '../hook/getData';
 
 const BankInfoTicker = ({ data, speed = 2 }) => {
+
+  
     const tickerRef = useRef(null);
     const [translateX, setTranslateX] = useState(0);
-
     useEffect(() => {
         const tick = () => {
             if (tickerRef.current) {
@@ -19,9 +21,10 @@ const BankInfoTicker = ({ data, speed = 2 }) => {
 
         const interval = setInterval(tick, 16); // 60fps
         return () => clearInterval(interval);
-    }, [speed]);
-
+    }, []);
     const combinedData = [...data, ...data].join('   ');
+
+
 
     return (
         <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', position: 'fixed', top: '0', background: 'rgb(34, 114, 255, 0.9)', height: '25px', borderBottom: '3px solid rgba(255,255,255,0.75) ' }}>

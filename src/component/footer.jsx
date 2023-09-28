@@ -7,6 +7,8 @@ const Footers = styled.footer`
     justify-content: center;
     align-items: center;
     margin-top: 150px;
+    border-top: 3px solid #eaeaea;
+    padding: 20px;
     p {
         margin: 5px;
     }

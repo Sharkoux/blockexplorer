@@ -1,9 +1,10 @@
 import Header from './header'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Footer from './footer'
 import { createGlobalStyle } from 'styled-components'
-import BankInfoTicker from './slider'
+import BankInfoTicker from './InfoTicker'
+import useGetData from '../hook/getData'
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -43,10 +44,60 @@ const bankInfos = [
     // ... Ajoutez autant d'informations que vous le souhaitez
 ];
 
+const symbols = {
+    usd: '$',
+    eur: '€',
+    gbp: '£',
+    jpy: '¥',
+    cny: '¥',
+    inr: '₹',
+    rub: '₽',
+    krw: '₩',
+    btc: '₿',
+    eth: 'Ξ',
+    ltc: 'Ł',
+    xrp: 'Ʀ',
+    ada: '₳',
+    bnb: 'Ƀ',
+    usdt: '₮',
+    doge: 'Ð',
+    usdc: '$',
+    dot: '₯',
+
+};
+
+
+const generateBankInfos = (data) => {
+    const keys = [
+        "usd", "eur", "gbp", "jpy", "cny", "inr", "rub", "krw", "btc", "eth", "ltc", "xrp", "ada", "bnb", "usdt", "doge", "usdc", "dot"
+    ];
+
+    keys.map(key => {
+        const value = data[key];
+        const symbol = symbols[key];
+        console.log(symbols[key], value)
+        if (value !== undefined) {
+            return `ETH/${key.toUpperCase()}: ${value?.toFixed(2)}${symbol}`;
+        }
+    });
+};
 
 
 /* Component Layout (component to display header, footer and children) */
 const Layout = ({ children }) => {
+    const [currentPrices, setCurrentPrices] = useState(null)
+
+    const { GetData, currentPrice } = useGetData({ currencies: 'usd' })
+
+    useEffect(() => {
+        if (currentPrices === null) {
+            GetData()
+            setCurrentPrices(currentPrice)
+        }
+    }, [])
+    //const bankInfo = generateBankInfos(currentPrice);
+    console.log(currentPrice)
+
     return (
         <React.Fragment>
             <GlobalStyle />
