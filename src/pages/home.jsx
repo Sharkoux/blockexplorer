@@ -57,6 +57,7 @@ function Home() {
     const [prices, setPrice] = useState(null);
     const [marketCaps, setMarketCap] = useState(null);
 
+
     const { price, GetData, GetPrice, marketCap } = useGetData({ currencies: 'usd' })
 
     useEffect(() => {
@@ -93,12 +94,12 @@ function Home() {
                 <SearchBar />
             </div>
             <div className='info_Container'>
-                <Information firstValue={`ETH price: ${prices}$`} secondValue={`ETH Market cap: ${marketCaps} $`} />
+                <Information firstValue={<>ETHER price: <br />{Math.round(prices)} $</>} secondValue={<>Market cap: <br />{Math.round(marketCaps)} $</>} icone1={'/ether.png'} icone2={'/globe.png'} />
                 <Durée />
-                <Information firstValue={`Gas price: ${gasPrice} GWEI`} secondValue={`Latest Block: ${block}`} />
+                <Information firstValue={<>Gas price: <br /> {Math.round(gasPrice)} GWEI</>} secondValue={<>Latest Block: <br /> {block}</>} icone1={'/gas.png'} icone2={'/blocs.png'} />
             </div>
             <div className='info_Container'>
-                <BlockContainer type='Blocks' />
+                <BlockContainer type='Blocks' data={block} />
                 <BlockContainer type='Transactions' />
             </div>
         </HomeContainer>

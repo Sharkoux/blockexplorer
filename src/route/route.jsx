@@ -1,8 +1,7 @@
 import Layout from '../component/layout'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from '../pages/home'
-
-
+import Block from '../pages/block'
 //All routes of the application are defined here
 
 const router = createBrowserRouter([
@@ -14,6 +13,10 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <Home />,
 
+            },
+            {
+                path: '/block/:id',
+                element: <Block />,
             }
         ],
     },

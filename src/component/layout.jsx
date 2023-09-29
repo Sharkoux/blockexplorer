@@ -16,33 +16,11 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         color: black;
     }
-    
     span {
         color: rgb(34, 114, 255, 0.8);
     }
 `
 
-const bankInfos = [
-    "ETH/USD: 1,000.00$",
-    "ETH/EUR: 1,000.00€",
-    "ETH/GBP: 1,000.00£",
-    "ETH/JPY: 1,000.00¥",
-    "ETH/CNY: 1,000.00¥",
-    "ETH/INR: 1,000.00₹",
-    "ETH/RUB: 1,000.00₽",
-    "ETH/KRW: 1,000.00₩",
-    "ETH/BTC: 1,000.00₿",
-    "ETH/ETH: 1,000.00Ξ",
-    "ETH/LTC: 1,000.00Ł",
-    "ETH/XRP: 1,000.00Ʀ",
-    "ETH/ADA: 1,000.00₳",
-    "ETH/BNB: 1,000.00Ƀ",
-    "ETH/USDT: 1,000.00₮",
-    "ETH/DOGE: 1,000.00Ð",
-    "ETH/USDC: 1,000.00$",
-    "ETH/DOT: 1,000.00₯",
-    // ... Ajoutez autant d'informations que vous le souhaitez
-];
 
 const symbols = {
     usd: '$',
@@ -57,11 +35,10 @@ const symbols = {
     eth: 'Ξ',
     ltc: 'Ł',
     xrp: 'Ʀ',
-    ada: '₳',
+    eos: '₳',
     bnb: 'Ƀ',
-    usdt: '₮',
-    doge: 'Ð',
-    usdc: '$',
+    link: '£',
+    bch: '₿',
     dot: '₯',
 
 };
@@ -69,17 +46,16 @@ const symbols = {
 
 const generateBankInfos = (data) => {
     const keys = [
-        "usd", "eur", "gbp", "jpy", "cny", "inr", "rub", "krw", "btc", "eth", "ltc", "xrp", "ada", "bnb", "usdt", "doge", "usdc", "dot"
+        "usd", "eur", "gbp", "jpy", "cny", "inr", "rub", "krw", "btc", "eth", "ltc", "xrp", "eos", "bnb", "link", "bch", "dot"
     ];
 
-    keys.map(key => {
-        const value = data[key];
+    return keys.map(key => {
         const symbol = symbols[key];
-        console.log(symbols[key], value)
-        if (value !== undefined) {
-            return `ETH/${key.toUpperCase()}: ${value?.toFixed(2)}${symbol}`;
+
+        if (data[key]) {
+            return `ETH/${key.toUpperCase()}: ${data[key]?.toFixed(2)}${symbol}`;
         }
-    });
+    }).filter(Boolean);
 };
 
 
@@ -94,14 +70,15 @@ const Layout = ({ children }) => {
             GetData()
             setCurrentPrices(currentPrice)
         }
-    }, [])
-    //const bankInfo = generateBankInfos(currentPrice);
-    console.log(currentPrice)
+    }, [currentPrice])
+
+    let bankInfo = currentPrices ? generateBankInfos(currentPrice) : [];
+
 
     return (
         <React.Fragment>
             <GlobalStyle />
-            <BankInfoTicker data={bankInfos} speed={2} />
+            <BankInfoTicker data={bankInfo} speed={2} />
             <Header />
             <main>
                 {children}

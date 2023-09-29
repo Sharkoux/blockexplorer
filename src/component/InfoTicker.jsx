@@ -3,7 +3,7 @@ import useGetData from '../hook/getData';
 
 const BankInfoTicker = ({ data, speed = 2 }) => {
 
-  
+
     const tickerRef = useRef(null);
     const [translateX, setTranslateX] = useState(0);
     useEffect(() => {
@@ -22,7 +22,7 @@ const BankInfoTicker = ({ data, speed = 2 }) => {
         const interval = setInterval(tick, 16); // 60fps
         return () => clearInterval(interval);
     }, []);
-    const combinedData = [...data, ...data].join('   ');
+    const combinedData = [...data, ...data].join(' | ');
 
 
 
