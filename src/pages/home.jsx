@@ -100,7 +100,7 @@ function Home() {
             </div>
             <div className='info_Container'>
                 <BlockContainer type='Blocks' data={block} />
-                <BlockContainer type='Transactions' />
+                <BlockContainer type='Transactions' data={block} />
             </div>
         </HomeContainer>
     )

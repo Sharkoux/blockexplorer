@@ -15,7 +15,6 @@ const BlockContainers = styled.div`
     margin-top: 50px;
     border-radius: 20px;
     padding: 50px;
-    color: white;
     width: 100%;
     margin: 30px;
     h1 {
@@ -62,11 +61,11 @@ const alchemy = new Alchemy(settings);
 /* Component Header (component to display header) */
 function BlockContainer({ type, data }) {
     const [dataArray, setDataArray] = useState([]);
-
+    const [dataTransaction, setDataTransaction] = useState([]);
 
 
     useEffect(() => {
-        if(type !== "Blocks" ) return
+
         async function getBlocks() {
             if (!data) return
             const numberOfBlocksToFetch = 10; // ou tout autre nombre de votre choix
@@ -87,17 +86,40 @@ function BlockContainer({ type, data }) {
             setDataArray(prevDataArray => [...prevDataArray, ...fetchedBlocks]);
 
         }
-        getBlocks();
+
+        async function getTransactions() {
+            if (!data) return
+            try {
+                const transactions = await alchemy.core.getBlock(data);
+
+                for(let i = 0; i < 10; i++) {
+                    const transaction = await alchemy.core.getTransaction(transactions.transactions[i])
+                    setDataTransaction(prevDataArray => [...prevDataArray, transaction]);
+                }
+            } catch (error) {
+                console.error(`Error fetching block:`, error);
+            }
+        }
+
+        if (type === "Blocks") getBlocks();
+        if (type === "Transactions") getTransactions();
     }, [data]);
 
+    console.log(dataTransaction)
 
     return (
         <BlockContainers>
             <h1>Latest {type}</h1>
             <div className="scroll_Container">
-                {dataArray.slice(0, 10).map((data, index) => {
+            {type === "Blocks" ? 
+                dataArray.slice(0, 10).map((data, index) => {
                     return <Card key={index} type={type} data={data} />
-                })}
+                })
+                : 
+                dataTransaction?.map((data, index) => {
+                    return <Card key={index} type={type} data2={data} />
+                })
+            }
             </div>
             <button>View All {type}</button>
         </BlockContainers>
