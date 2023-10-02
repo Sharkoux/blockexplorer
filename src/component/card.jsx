@@ -64,7 +64,7 @@ function Card({ type, data, data2 }) {
                     <>
                         <img src="/transaction.png"></img>
                         <div className="container_Hash"><p>Hash: {transaction?.hash?.slice(0, 16)}...</p></div>
-                        <div className="container_FromTo"><p>From: {transaction?.from?.slice(0, 16)}...</p><p>To: {transaction?.to.slice(0, 16)}...</p></div>
+                        <div className="container_FromTo"><p>From: {transaction?.from?.slice(0, 16)}...</p><p>To: {transaction?.to?.slice(0, 16)}...</p></div>
                     </>
             }
 

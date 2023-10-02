@@ -27,6 +27,7 @@ const SearchBars = styled.div`
         height: 40px;
         margin: 0;
         border: 0;
+        border-radius: 0px;
     }
     input:focus {
         outline: none;

@@ -45,6 +45,9 @@ const BlocksContainer = styled.div`
         color: white;
         font-size: 17px;
     }
+    h3 {
+        color: rgb(100, 101, 115, 0.9);
+    }
     
 `
 
@@ -73,7 +76,6 @@ function Block() {
     useEffect(() => {
         async function getBlock() {
             const blockData = await alchemy.core.getBlock(parseInt(id));
-            console.log(blockData)
             let date = new Date(blockData?.timestamp * 1000)
             setTime(date.toString())
             setTransactions(blockData?.transactions?.length)
@@ -115,7 +117,7 @@ function Block() {
                         Miner:
                     </h3>
                     <p>
-                        <Link className='links link'>{miner}</Link>
+                        <Link  className='links link' to={`/address/${miner}`} >{miner}</Link>
                     </p>
                 </div>
                 <div className="informationBlock_Container">

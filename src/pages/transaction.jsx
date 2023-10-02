@@ -5,6 +5,8 @@ import { Alchemy, Network, Utils } from 'alchemy-sdk';
 import { Link } from 'react-router-dom'
 import { all } from 'axios';
 
+/* global BigInt */
+
 const TransactionContainer = styled.div`
 display: flex;
 flex-direction: column;
@@ -16,7 +18,7 @@ margin-right: 150px;
 margin-left: 150px;
 border-radius: 20px;
 color: white;
-padding-bottom: 100px;
+padding-bottom: 70px;
 h1 {
     font-size: 22px;
     align-self: center;
@@ -28,13 +30,14 @@ h1 {
     flex-direction: column;
     background-color: rgb(255,255,255, 0.2);
     box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75);
-    margin-top: 50px;
+    margin: 70px;
+    margin-top: 100px;
     border-radius: 20px;
     padding: 30px;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    margin: 30px;
+    width: 400px;
+    
     
 }
 .allBlock_Container {
@@ -42,12 +45,15 @@ h1 {
     justify-content: space-around;
     padding: 30px;
     flex-wrap: wrap;
+    width: 100%;
 }
 .link {
     color: white;
     font-size: 17px;
 }
-    
+h3 {
+    color: rgb(100, 101, 115, 0.9);
+}
 `
 
 const settings = {
@@ -62,7 +68,6 @@ const alchemy = new Alchemy(settings);
 /* Page  */
 function Transaction() {
     const [gasPrice, setGasPrice] = useState(null);
-    const [time, setTime] = useState(null);
     const [transactions, setTransactions] = useState(null);
     const [block, setBlock] = useState(null);
     const [from, setFrom] = useState(null);
@@ -75,13 +80,12 @@ function Transaction() {
     useEffect(() => {
         const transac = async () => {
             const alltxn = await alchemy.core.getTransaction(id)
-            setBlock(alltxn.blockNumber)
-            setTime(alltxn.timestamp)
-            setFrom(alltxn.from)
-            setTo(alltxn.to)
-            setGasPrice(Utils.formatUnits(parseInt(alltxn.gasPrice._hex, 16), 'gwei'))
-            setValue(Utils.formatUnits(parseInt(alltxn.value._hex, 16), 'gwei'))
-            console.log(alltxn)
+            setBlock(alltxn?.blockNumber)
+            setFrom(alltxn?.from)
+            setTo(alltxn?.to)
+            setGasPrice(Utils.formatUnits(parseInt(alltxn?.gasPrice?._hex, 16), 'gwei'))
+            let values = Utils.formatUnits(BigInt(parseInt(alltxn?.value?._hex, 16)), 'ether')
+            setValue(values)
         }
         transac()
     }, [])
@@ -99,39 +103,39 @@ function Transaction() {
             <h1>Transaction #{id}</h1>
             <div className='allBlock_Container'>
                 <div className="informationTransaction_Container">
-                    <h3>
+                    <h3 >
                         Block:
                     </h3>
-                    <p>{block}</p>
-                    <h3>
-                        Date of transactions:
-                    </h3>
-                    <p>
-                        {time}
-                    </p>
+                    <Link className='links link' to={`/block/${block}`}>{block}</Link>
+                </div>
+                <div className="informationTransaction_Container">
                     <h3>
                         From :
                     </h3>
-                    <p>
-                        {from}
-                    </p>
+                    <Link  className='links link' to={`/address/${from}`}>{from}</Link>
+                </div>
+                <div className="informationTransaction_Container">
                     <h3>
                         To :
                     </h3>
-                    <p>
+                    <Link className='links link' to={`/address/${to}`}>
                         {to}
-                    </p>
+                    </Link>
+                </div>
+                <div className="informationTransaction_Container">
                     <h3>
                         Gas price:
                     </h3>
                     <p>
-                        {gasPrice}
+                        {Math.round(gasPrice)} GWEI
                     </p>
+                </div>
+                <div className="informationTransaction_Container">
                     <h3>
                         Value:
                     </h3>
                     <p>
-                        {value}
+                        {value} Ether
                     </p>
                 </div>
 
