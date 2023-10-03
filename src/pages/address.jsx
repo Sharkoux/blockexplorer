@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import { all } from 'axios';
 import useGetData from '../hook/getData'
 import LoadingSpinner from '../component/spinner';
-import { Table } from 'sharkoux-packages-tables'
+import TableAddress from '../component/tableAddress';
+
 /* global BigInt */
 
 const AddressContainer = styled.div`
@@ -27,20 +28,24 @@ h1 {
     padding-top: 20px;
     color: white;
 }
+.address_Container {
+    display: flex;
+    width: 100%;
+}
 .informationAddress_Container {
     display: flex;
     flex-direction: column;
     background-color: rgb(255,255,255, 0.2);
     box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75);
-    margin: 70px;
-    margin-top: 100px;
     border-radius: 20px;
     padding: 30px;
     align-items: center;
     justify-content: center;
     width: 400px;
-    
-    
+    margin: auto;
+    margin-top: 100px;
+    margin-left: 15px;
+    margin-right: 20px;
 }
 .link {
     color: white;
@@ -151,7 +156,7 @@ function Address() {
         <AddressContainer>
             {spinner ? <LoadingSpinner /> : null}
             <h1>Address #{id}</h1>
-            <div>
+            <div className='address_Container'>
                 <div className='informationAddress_Container'>
                     <h3>Overview:</h3>
                     <p>ETH balance: {Math.round(balance)} ETH</p>
@@ -170,9 +175,7 @@ function Address() {
                         </ul>
                         : null}
                 </div>
-                <div>
-
-                </div>
+                <TableAddress address={id}/>
             </div>
         </AddressContainer>
     )
