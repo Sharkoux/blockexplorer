@@ -35,7 +35,7 @@ const Styles = styled.div`
         border: 0;
         color: white;
         border-radius: 5px;
-        padding: 10px;
+        padding: 10px!important;
         cursor: pointer;
         font-weight: bold;
         margin: 10px;
@@ -72,7 +72,6 @@ function TableAddress({ address }) {
         draggable: false
     });
     const [pageKeys, setPageKeys] = useState([]);
-    const [pageKey, setPageKey] = useState(null);
     const [data, setData] = useState([]);
 
     const loadMoreData = async () => {
@@ -98,7 +97,7 @@ function TableAddress({ address }) {
 
     useEffect(() => {
         loadMoreData();
-    }, [lazyState.page]);
+    }, [lazyState.page, category]);
 
     useEffect(() => {
         if (lazyState.sortField) {
@@ -116,16 +115,17 @@ function TableAddress({ address }) {
 
     const Columns = React.useMemo(
         () => [
-            { header: "Asset", accessor: "asset", sortable: true },
-            { header: "Block", accessor: "blockNum", sortable: true },
-            { header: "From", accessor: "from", sortable: true },
-            { header: "To", accessor: "to", sortable: true },
-            { header: "Hash", accessor: "hash", sortable: true },
+            { header: "Asset", accessor: "asset", sortable: true, cell: ({ value }) => <Link className="links link " to={`/token/${value}`}>{value}</Link> },
+            { header: "Block", accessor: "blockNum", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
+            { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
+            { header: "To", accessor: "to", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
+            { header: "Hash", accessor: "hash", sortable: true, cell: ({ value }) => <Link className="links link " to={`/transaction/${value}`}>{value}</Link> },
             { header: "Category", accessor: "category", sortable: true },
             { header: "Unique ID", accessor: "uniqueId", sortable: true },
             { header: "Value", accessor: "value", sortable: true }
         ]
     )
+
 
     const onPage = (event) => {
         const { first, page } = event;
@@ -156,8 +156,26 @@ function TableAddress({ address }) {
         }
     };
 
+
+    const getCategory = async (categorys) => {
+        setlazyState((prevState) => ({
+            ...prevState,
+            page: 1,
+            first: 0
+        }));
+        setCategory(categorys)
+
+    }
+
+
+
     return (
         <Styles>
+            <button onClick={() => getCategory(["external", "internal", "erc20", "erc721", "erc1155"])}>All</button>
+            <button onClick={() => getCategory(["external"])}>External</button>
+            <button onClick={() => getCategory(["erc20"])}>ERC20</button>
+            <button onClick={() => getCategory(["erc721"])}>ERC721</button>
+            <button onClick={() => getCategory(["erc1155"])}>ERC1155</button>
             <Table first={lazyState.first} draggables={lazyState.draggable} onSort={onSort} page={lazyState.page} onPage={onPage} lazy={true} Columns={Columns} Data={data} rows={lazyState.rows} pagination={lazyState.pagination} infiniteScroll={lazyState.infiniteScroll} />
         </Styles>
     )
