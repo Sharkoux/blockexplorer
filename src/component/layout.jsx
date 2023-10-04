@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import Footer from './footer'
 import { createGlobalStyle } from 'styled-components'
 import BankInfoTicker from './InfoTicker'
-import useGetData from '../hook/getData'
+import useGetData from '../hook/useGetData'
 
 const GlobalStyle = createGlobalStyle`
     body {

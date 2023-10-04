@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useGetData from '../hook/getData';
+import useGetData from '../hook/useGetData';
 
 const BankInfoTicker = ({ data, speed = 2 }) => {
 

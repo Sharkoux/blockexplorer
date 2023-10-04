@@ -5,7 +5,7 @@ import Information from '../component/information'
 import Durée from '../component/lineCharts'
 import BlockContainer from '../component/blocksAndTransaction'
 import { Alchemy, Network, Utils } from 'alchemy-sdk';
-import useGetData from '../hook/getData'
+import useGetData from '../hook/useGetData'
 
 const HomeContainer = styled.div`
     display: flex;
@@ -82,6 +82,10 @@ function Home() {
     }, [price, marketCap])
 
 
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
 
 

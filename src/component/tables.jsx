@@ -13,6 +13,11 @@ const Styles = styled.div`
     justify-content: center;
     width: 100%;
     margin-right: 50px;
+    .button_Container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     tr {
         background: none;
     }
@@ -24,7 +29,7 @@ const Styles = styled.div`
     }
     .cell {
         color: white;
-        max-width: 250px;
+        max-width: 200px;
         overflow: hidden;
         border-right: 1px solid white!important;
         border-bottom: 1px solid white!important;
@@ -57,8 +62,7 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 
-function TableAddress({ address }) {
-    const [category, setCategory] = useState(["external", "internal", "erc20", "erc721", "erc1155"])
+function Tables({ address, id, category, setCategory, Columns, buttons, type, blocks, setSpinner}) {
     const [lazyState, setlazyState] = useState({
         first: 0,
         rows: 20,
@@ -74,30 +78,53 @@ function TableAddress({ address }) {
     const [pageKeys, setPageKeys] = useState([]);
     const [data, setData] = useState([]);
 
+
     const loadMoreData = async () => {
-        try {
-            const response = await alchemy.core.getAssetTransfers({
-                fromBlock: "0x0",
-                fromAddress: address,
-                category: category,
-                order: lazyState.sortOrder ? lazyState.sortOrder : undefined,
-                maxCount: lazyState.rows,
-                pageKey: pageKeys[lazyState.page - 1],
-            });
-            setData(response.transfers);
-            setPageKeys((prevKeys) => {
-                const newKeys = [...prevKeys];
-                newKeys[lazyState.page] = response.pageKey;
-                return newKeys;
-            });
-        } catch (error) {
-            console.log(error)
+        if (!type) {
+            try {
+                const response = await alchemy.core.getAssetTransfers({
+                    fromBlock: "0x0",
+                    fromAddress: address,
+                    category: category,
+                    order: lazyState.sortOrder ? lazyState.sortOrder : undefined,
+                    maxCount: lazyState.rows,
+                    pageKey: pageKeys[lazyState.page - 1],
+                });
+                setData(response.transfers);
+                setPageKeys((prevKeys) => {
+                    const newKeys = [...prevKeys];
+                    newKeys[lazyState.page] = response.pageKey;
+                    return newKeys;
+                });
+            } catch (error) {
+                console.log(error)
+            }
         }
-    };
+    }
+    const getBlocks = async (startBlock, endBlock) => {
+        if(type !== 'blocks') return
+        const fetchedBlocks = [];
+
+        // Assurez-vous que startBlock est toujours supérieur à endBlock
+        for (let i = startBlock; i >= endBlock; i--) {
+            try {
+                const blockData = await alchemy.core.getBlock(i);
+                if (blockData) {
+                    fetchedBlocks.push(blockData);
+                }
+            } catch (error) {
+                console.error(`Error fetching block:`, error);
+            }
+        }
+
+        setData(fetchedBlocks);
+    }
+
 
     useEffect(() => {
         loadMoreData();
-    }, [lazyState.page, category]);
+        getBlocks()
+    }, [lazyState.page, category, id]);
 
     useEffect(() => {
         if (lazyState.sortField) {
@@ -113,19 +140,6 @@ function TableAddress({ address }) {
         }
     }, [lazyState.sortField, lazyState.sortOrder]);
 
-    const Columns = React.useMemo(
-        () => [
-            { header: "Asset", accessor: "asset", sortable: true, cell: ({ value }) => <Link className="links link " to={`/token/${value}`}>{value}</Link> },
-            { header: "Block", accessor: "blockNum", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
-            { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
-            { header: "To", accessor: "to", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
-            { header: "Hash", accessor: "hash", sortable: true, cell: ({ value }) => <Link className="links link " to={`/transaction/${value}`}>{value}</Link> },
-            { header: "Category", accessor: "category", sortable: true },
-            { header: "Unique ID", accessor: "uniqueId", sortable: true },
-            { header: "Value", accessor: "value", sortable: true }
-        ]
-    )
-
 
     const onPage = (event) => {
         const { first, page } = event;
@@ -134,6 +148,13 @@ function TableAddress({ address }) {
             first: first,
             page: page
         }));
+
+        if (type === 'blocks') {
+            const newStartBlock = (blocks - 1) - (page - 1) * lazyState.rows;
+            const newEndBlock = newStartBlock - lazyState.rows + 1;
+
+            getBlocks(newStartBlock, newEndBlock);
+        }
     };
 
     const onSort = (event) => {
@@ -167,18 +188,18 @@ function TableAddress({ address }) {
 
     }
 
-
+    useEffect(() => {
+        if(data.length) {
+            setSpinner(false)
+        }
+    }, [data])
 
     return (
         <Styles>
-            <button onClick={() => getCategory(["external", "internal", "erc20", "erc721", "erc1155"])}>All</button>
-            <button onClick={() => getCategory(["external"])}>External</button>
-            <button onClick={() => getCategory(["erc20"])}>ERC20</button>
-            <button onClick={() => getCategory(["erc721"])}>ERC721</button>
-            <button onClick={() => getCategory(["erc1155"])}>ERC1155</button>
+            {buttons(getCategory)}
             <Table first={lazyState.first} draggables={lazyState.draggable} onSort={onSort} page={lazyState.page} onPage={onPage} lazy={true} Columns={Columns} Data={data} rows={lazyState.rows} pagination={lazyState.pagination} infiniteScroll={lazyState.infiniteScroll} />
         </Styles>
     )
 }
 
-export default TableAddress
+export default Tables

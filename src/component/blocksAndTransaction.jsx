@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Card from "./card"
@@ -63,6 +63,7 @@ function BlockContainer({ type, data }) {
     const [dataArray, setDataArray] = useState([]);
     const [dataTransaction, setDataTransaction] = useState([]);
 
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -105,7 +106,7 @@ function BlockContainer({ type, data }) {
         if (type === "Transactions") getTransactions();
     }, [data]);
 
-    console.log(dataTransaction)
+
 
     return (
         <BlockContainers>
@@ -121,7 +122,7 @@ function BlockContainer({ type, data }) {
                 })
             }
             </div>
-            <button>View All {type}</button>
+            <button onClick={() => navigate(`/${type.toLowerCase()}`)} >View All {type}</button>
         </BlockContainers>
     )
 }

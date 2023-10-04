@@ -9,7 +9,7 @@ import useGetTotalSupply from '../hook/useGetTotalSupply'
 
 /* global BigInt */
 
-const TransactionsContainer = styled.div`
+const TokenContainer = styled.div`
 display: flex;
 flex-direction: column;
 min-height: calc(100vh - 100px);
@@ -101,17 +101,38 @@ const alchemy = new Alchemy(settings);
 
 
 /* Page  */
-function Transactions() {
+function Token() {
+    const [suply, setSuply] = useState(null)
     const [dataGeneral, setDataGeneral] = useState(null)
     const [spinner, setSpinner] = useState(false);
 
     const { id } = useParams()
+
+    const { totalSupply, getERC20TotalSupply } = useGetTotalSupply()
 
     
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
 
+
+
+    useEffect(() => {
+        const getData = async () => {
+            const data = await alchemy.core.getTokenMetadata(id);
+            console.log(data)
+            setDataGeneral(data)
+        }
+        getData()
+        getERC20TotalSupply(id)
+    }, [])
+
+    useEffect(() => {
+        if (totalSupply) {
+            setSpinner(false)
+            setSuply(Utils.formatUnits(BigInt(totalSupply), dataGeneral?.decimals))
+        }
+    }, [totalSupply])
 
     const [category, setCategory] = useState(["external", "internal", "erc20", "erc721", "erc1155"])
 
@@ -131,7 +152,7 @@ function Transactions() {
 
     const Columns = React.useMemo(
         () => [
-
+            { header: "Asset", accessor: "asset", sortable: true, cell: ({ value, row }) => { const link = row?.rawContract?.address ? row?.rawContract?.address : 'ETH'; return (<Link className="links link " to={`/token/${link}`}>{value}</Link>) } },
             { header: "Block", accessor: "blockNum", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
             { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
             { header: "To", accessor: "to", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
@@ -145,11 +166,21 @@ function Transactions() {
 
     return (
 
-        <TransactionsContainer>
-            <h1>Transactions:</h1>
+        <TokenContainer>
+            {spinner ? <LoadingSpinner /> : null}
+            <h1>Token #{id}</h1>
+            <div className='address_Container'>
+                <div className='informationAddress_Container'>
+                    <h3>{dataGeneral?.name}</h3>
+                    <img src={dataGeneral?.logo} />
+                    <p> Total Supply: {suply}  {dataGeneral?.symbol}</p>
 
-        </TransactionsContainer>
+
+                </div>
+                <Tables address={id} id={id} category={category} setCategory={setCategory} Columns={Columns} buttons={buttons} />
+            </div>
+        </TokenContainer>
     )
 }
 
-export default Transactions
+export default Token

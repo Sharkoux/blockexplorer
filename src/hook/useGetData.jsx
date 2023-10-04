@@ -30,5 +30,6 @@ export default function useGetData({ currencies }) {
                 console.log(err);
             });
     }
-    return { price, GetData, GetPrice, marketCap, currentPrice };
+
+    return { price, GetData, GetPrice, marketCap, currentPrice};
 }

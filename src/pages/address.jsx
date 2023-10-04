@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Alchemy, Network, Utils } from 'alchemy-sdk';
-import { Link } from 'react-router-dom'
-import { all } from 'axios';
-import useGetData from '../hook/getData'
+import useGetData from '../hook/useGetData'
 import LoadingSpinner from '../component/spinner';
-import TableAddress from '../component/tableAddress';
+import Tables from '../component/tables';
+
 
 /* global BigInt */
 
@@ -103,6 +102,20 @@ const alchemy = new Alchemy(settings);
 
 /* Page  */
 function Address() {
+
+    const Columns = React.useMemo(
+        () => [
+            { header: "Asset", accessor: "asset", sortable: true, cell: ({ value, row }) => { const link = row?.rawContract?.address ? row?.rawContract?.address : 'ETH'; return (<Link className="links link " to={`/token/${link}`}>{value}</Link>) } },
+            { header: "Block", accessor: "blockNum", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
+            { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
+            { header: "To", accessor: "to", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
+            { header: "Hash", accessor: "hash", sortable: true, cell: ({ value }) => <Link className="links link " to={`/transaction/${value}`}>{value}</Link> },
+            { header: "Category", accessor: "category", sortable: true },
+            { header: "Unique ID", accessor: "uniqueId", sortable: true },
+            { header: "Value", accessor: "value", sortable: true }
+        ]
+    )
+
     const [balance, setBalance] = useState(null);
     const [allBalance, setAllBalance] = useState([]);
     const [spinner, setSpinner] = useState(true);
@@ -110,8 +123,23 @@ function Address() {
     const { id } = useParams()
 
     const { price, GetPrice } = useGetData({ currencies: 'usd' })
+    const [category, setCategory] = useState(["external", "internal", "erc20", "erc721", "erc1155"])
 
+        
+    const buttons = (getCategory) => {
+        return (
+            <div className="button_Container">
+            <button onClick={() => getCategory(["external", "internal", "erc20", "erc721", "erc1155"])}>All</button>
+            <button onClick={() => getCategory(["internal"])}>Internal</button>
+            <button onClick={() => getCategory(["external"])}>External</button>
+            <button onClick={() => getCategory(["erc20"])}>ERC20</button>
+            <button onClick={() => getCategory(["erc721"])}>ERC721</button>
+            <button onClick={() => getCategory(["erc1155"])}>ERC1155</button>
+            </div>
+        )
+    }
 
+    
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -119,6 +147,7 @@ function Address() {
 
     useEffect(() => {
         const getAccount = async () => {
+            setSpinner(true)
             const account = await alchemy.core.getBalance(id);
             setBalance(Utils.formatUnits(BigInt(parseInt(account._hex, 16)), 'ether'));
             const balances = await alchemy.core.getTokenBalances(id);
@@ -139,16 +168,16 @@ function Address() {
             }
         };
 
-        if (balance === null) {
-            getAccount();
-        }
-    }, []);
+        getAccount();
+
+    }, [id]);
 
     useEffect(() => {
         if (allBalance.length || price) {
             setSpinner(false)
         }
     }, [allBalance, price]);
+
 
     /* Return Home container with Banner and map data to card component */
     return (
@@ -175,7 +204,7 @@ function Address() {
                         </ul>
                         : null}
                 </div>
-                <TableAddress address={id}/>
+                <Tables address={id} id={id} setCategory={setCategory} category={category} Columns={Columns} buttons={buttons} />
             </div>
         </AddressContainer>
     )

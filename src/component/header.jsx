@@ -64,9 +64,9 @@ function Header() {
                 <Link to='/' className="links logo">All<span>scan</span></Link>
             </div>
             <div className="nav">
-                <Link to='/block' className="links">Block</Link>
-                <Link to='/transaction' className="links">Transaction</Link>
-                <Link to='/address' className="links">Address</Link>
+                <Link to='/blocks' className="links">Block</Link>
+                <Link to='/transactions' className="links">Transaction</Link>
+                <Link to='/address' className="links">NFT</Link>
             </div>
         </Headers>
     )
