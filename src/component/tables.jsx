@@ -17,6 +17,7 @@ const Styles = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 10px;
     }
     tr {
         background: none;
@@ -62,7 +63,7 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 
-function Tables({ address, id, category, setCategory, Columns, buttons, type, blocks, setSpinner}) {
+function Tables({ address, id, category, setCategory, Columns, buttons, type, blocks, setSpinner, transactions }) {
     const [lazyState, setlazyState] = useState({
         first: 0,
         rows: 20,
@@ -102,7 +103,8 @@ function Tables({ address, id, category, setCategory, Columns, buttons, type, bl
         }
     }
     const getBlocks = async (startBlock, endBlock) => {
-        if(type !== 'blocks') return
+        if (type !== 'blocks') return
+
         const fetchedBlocks = [];
 
         // Assurez-vous que startBlock est toujours supérieur à endBlock
@@ -120,11 +122,31 @@ function Tables({ address, id, category, setCategory, Columns, buttons, type, bl
         setData(fetchedBlocks);
     }
 
+    async function getTransactions(startTransaction, endTransaction) {
+        if (type !== 'transactions') return;
+
+        try {
+            const fetchedTransactions = [];
+            for (let i = startTransaction; i < endTransaction; i++) {
+                const transactionHash = transactions.transactions[i];
+                if (transactionHash) {
+                    const transaction = await alchemy.core.getTransaction(transactionHash);
+                    if (transaction) {
+                        fetchedTransactions.push(transaction);
+                    }
+                }
+            }
+            setData(fetchedTransactions);
+        } catch (error) {
+            console.error(`Error fetching transactions:`, error);
+        }
+    }
 
     useEffect(() => {
         loadMoreData();
-        getBlocks()
-    }, [lazyState.page, category, id]);
+    }, [lazyState.page, category, id, transactions]);
+
+
 
     useEffect(() => {
         if (lazyState.sortField) {
@@ -141,6 +163,25 @@ function Tables({ address, id, category, setCategory, Columns, buttons, type, bl
     }, [lazyState.sortField, lazyState.sortOrder]);
 
 
+    useEffect(() => {
+
+        if (type === 'blocks') {
+            setSpinner(true)
+            const newStartBlock = (blocks - 1) - (lazyState.page - 1) * lazyState.rows;
+            const newEndBlock = newStartBlock - lazyState.rows + 1;
+
+            getBlocks(newStartBlock, newEndBlock);
+        }
+        if (type === 'transactions') {
+            setSpinner(true);
+            const newStartTransaction = (lazyState.page - 1) * lazyState.rows;
+            const newEndTransaction = newStartTransaction + lazyState.rows;
+
+            getTransactions(newStartTransaction, newEndTransaction);
+        }
+
+    }, [lazyState.page, lazyState.rows, blocks, transactions]);
+
     const onPage = (event) => {
         const { first, page } = event;
         setlazyState((prevState) => ({
@@ -148,13 +189,6 @@ function Tables({ address, id, category, setCategory, Columns, buttons, type, bl
             first: first,
             page: page
         }));
-
-        if (type === 'blocks') {
-            const newStartBlock = (blocks - 1) - (page - 1) * lazyState.rows;
-            const newEndBlock = newStartBlock - lazyState.rows + 1;
-
-            getBlocks(newStartBlock, newEndBlock);
-        }
     };
 
     const onSort = (event) => {
@@ -188,9 +222,15 @@ function Tables({ address, id, category, setCategory, Columns, buttons, type, bl
 
     }
 
+
     useEffect(() => {
-        if(data.length) {
-            setSpinner(false)
+        if (data.length) {
+            if (type === 'blocks') {
+                setSpinner(false)
+            }
+            if (type === 'transactions') {
+                setSpinner(false)
+            }
         }
     }, [data])
 

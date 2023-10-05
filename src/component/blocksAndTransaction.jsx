@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Card from "./card"
@@ -122,7 +122,7 @@ function BlockContainer({ type, data }) {
                 })
             }
             </div>
-            <button onClick={() => navigate(`/${type.toLowerCase()}`)} >View All {type}</button>
+            <button onClick={() => navigate(`/${type.toLowerCase()}`, {state: data})} >View All {type}</button>
         </BlockContainers>
     )
 }

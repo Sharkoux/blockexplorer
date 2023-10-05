@@ -105,7 +105,7 @@ function Address() {
 
     const Columns = React.useMemo(
         () => [
-            { header: "Asset", accessor: "asset", sortable: true, cell: ({ value, row }) => { const link = row?.rawContract?.address ? row?.rawContract?.address : 'ETH'; return (<Link className="links link " to={`/token/${link}`}>{value}</Link>) } },
+            { header: "Asset", accessor: "asset", sortable: true, cell: ({ value, row }) => { const link = row?.rawContract?.address ? `/token/${row?.rawContract?.address}` : '/'; return (<Link className="links link " to={link}>{value}</Link>) } },
             { header: "Block", accessor: "blockNum", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
             { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
             { header: "To", accessor: "to", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
@@ -125,21 +125,21 @@ function Address() {
     const { price, GetPrice } = useGetData({ currencies: 'usd' })
     const [category, setCategory] = useState(["external", "internal", "erc20", "erc721", "erc1155"])
 
-        
+
     const buttons = (getCategory) => {
         return (
             <div className="button_Container">
-            <button onClick={() => getCategory(["external", "internal", "erc20", "erc721", "erc1155"])}>All</button>
-            <button onClick={() => getCategory(["internal"])}>Internal</button>
-            <button onClick={() => getCategory(["external"])}>External</button>
-            <button onClick={() => getCategory(["erc20"])}>ERC20</button>
-            <button onClick={() => getCategory(["erc721"])}>ERC721</button>
-            <button onClick={() => getCategory(["erc1155"])}>ERC1155</button>
+                <button onClick={() => getCategory(["external", "internal", "erc20", "erc721", "erc1155"])}>All</button>
+                <button onClick={() => getCategory(["internal"])}>Internal</button>
+                <button onClick={() => getCategory(["external"])}>External</button>
+                <button onClick={() => getCategory(["erc20"])}>ERC20</button>
+                <button onClick={() => getCategory(["erc721"])}>ERC721</button>
+                <button onClick={() => getCategory(["erc1155"])}>ERC1155</button>
             </div>
         )
     }
 
-    
+
 
     useEffect(() => {
         window.scrollTo(0, 0)

@@ -14,7 +14,7 @@ export default function useGetData({ currencies }) {
             .then(res => {
                 setMarketCap(res.data.market_data.market_cap[currencies]);
                 setCurrentPrice(res.data.market_data.current_price);
-                console.log(res.data.market_data.current_price)
+                
             })
             .catch(err => {
                 console.log(err);

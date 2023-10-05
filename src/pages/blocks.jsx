@@ -106,7 +106,7 @@ function Blocks() {
     const [block, setBlock] = useState(null)
     const [spinner, setSpinner] = useState(true)
 
-    console.log(spinner)
+
 
     const buttons = (getCategory) => {
         return (
@@ -132,14 +132,14 @@ function Blocks() {
     const Columns = React.useMemo(
         () => [
 
-            { header: "Block", accessor: "number", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
-            { header: "Time", accessor: "timestamp", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
-            { header: "Txn", accessor: "transactions", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value.length}</Link> },
-            { header: "Hash", accessor: "hash", sortable: true, cell: ({ value }) => <Link className="links link " to={`/transaction/${value}`}>{value}</Link> },
-            { header: "Miner", accessor: "miner", sortable: true },
-            { header: "Gas Used", accessor: "gasUsed", sortable: true, cell: ({ value }) => <p>{value?._hex}</p> },
-            { header: "Gas Limit", accessor: "gasLimit", sortable: true, cell: ({ value }) => <p>{value?._hex}</p> },
-            { header: "Base Fee", accessor: "baseFeePerGas", sortable: true, cell: ({ value }) => <p>{value?._hex}</p> }
+            { header: "Block", accessor: "number", sortable: false, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
+            { header: "Time", accessor: "timestamp", sortable: false, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
+            { header: "Txn", accessor: "transactions", sortable: false, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value.length}</Link> },
+            { header: "Hash", accessor: "hash", sortable: false, cell: ({ value }) => <Link className="links link " to={`/transaction/${value}`}>{value}</Link> },
+            { header: "Miner", accessor: "miner", sortable: false },
+            { header: "Gas Used", accessor: "gasUsed", sortable: false, cell: ({ value }) => <p>{value?._hex}</p> },
+            { header: "Gas Limit", accessor: "gasLimit", sortable: false, cell: ({ value }) => <p>{value?._hex}</p> },
+            { header: "Base Fee", accessor: "baseFeePerGas", sortable: false, cell: ({ value }) => <p>{value?._hex}</p> }
         ]
     )
 

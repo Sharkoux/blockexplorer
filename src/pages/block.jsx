@@ -66,6 +66,7 @@ function Block() {
     const [gasLimit, setGasLimit] = useState(null);
     const [time, setTime] = useState(null);
     const [transactions, setTransactions] = useState(null);
+    const [allTransactions, setAllTransactions] = useState([]);
     const [miner, setMiner] = useState(null);
     const [hash, setHash] = useState(null);
     const [parentHash, setParentHash] = useState(null);
@@ -79,6 +80,7 @@ function Block() {
             let date = new Date(blockData?.timestamp * 1000)
             setTime(date.toString())
             setTransactions(blockData?.transactions?.length)
+            setAllTransactions(blockData?.transactions)
             setMiner(blockData?.miner)
             setGasUsed(parseInt(blockData?.gasUsed?._hex, 16))
             setGasLimit(parseInt(blockData?.gasLimit?._hex, 16))
@@ -111,7 +113,7 @@ function Block() {
                         Transactions:
                     </h3>
                     <p>
-                        <Link className='links link'>{transactions}</Link> transaction in this block
+                        <Link className='links link' to={`/transactions`} state={allTransactions}>{transactions}</Link> transaction in this block
                     </p>
                     <h3>
                         Miner:

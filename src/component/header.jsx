@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import BankInfoTicker from "./InfoTicker"
+import { Alchemy, Network, Utils } from 'alchemy-sdk';
 
 const Headers = styled.header`
     display: flex;
@@ -49,11 +49,25 @@ const Headers = styled.header`
     }
 `
 
+const settings = {
+    apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
+    network: Network.ETH_MAINNET,
+};
+const alchemy = new Alchemy(settings);
 
 
 /* Component Header (component to display header) */
 function Header() {
+const [block, setBlock] = useState();  
 
+    
+    useEffect(() => {
+        const getBlock = async () => {
+            let test = await alchemy.core.getBlockNumber()
+            setBlock(test);
+        }
+        getBlock()
+    }, [])
 
 
     return (
@@ -65,7 +79,7 @@ function Header() {
             </div>
             <div className="nav">
                 <Link to='/blocks' className="links">Block</Link>
-                <Link to='/transactions' className="links">Transaction</Link>
+                <Link to='/transactions' state={block} className="links">Transaction</Link>
                 <Link to='/address' className="links">NFT</Link>
             </div>
         </Headers>

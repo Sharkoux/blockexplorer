@@ -6,6 +6,7 @@ import useGetData from '../hook/useGetData'
 import LoadingSpinner from '../component/spinner';
 import Tables from '../component/tables';
 import useGetTotalSupply from '../hook/useGetTotalSupply'
+import { useLocation } from "react-router-dom";
 
 /* global BigInt */
 
@@ -103,11 +104,11 @@ const alchemy = new Alchemy(settings);
 /* Page  */
 function Transactions() {
     const [dataGeneral, setDataGeneral] = useState(null)
-    const [spinner, setSpinner] = useState(false);
+    const [spinner, setSpinner] = useState(true);
 
-    const { id } = useParams()
+    const { state } = useLocation();
 
-    
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -117,14 +118,7 @@ function Transactions() {
 
     const buttons = (getCategory) => {
         return (
-            <div className="button_Container">
-                <button onClick={() => getCategory(["external", "internal", "erc20", "erc721", "erc1155"])}>All</button>
-                <button onClick={() => getCategory(["internal"])}>Internal</button>
-                <button onClick={() => getCategory(["external"])}>External</button>
-                <button onClick={() => getCategory(["erc20"])}>ERC20</button>
-                <button onClick={() => getCategory(["erc721"])}>ERC721</button>
-                <button onClick={() => getCategory(["erc1155"])}>ERC1155</button>
-            </div>
+            <></>
         )
     }
 
@@ -132,22 +126,54 @@ function Transactions() {
     const Columns = React.useMemo(
         () => [
 
-            { header: "Block", accessor: "blockNum", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
-            { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link" to={`/address/${value}`}>{value}</Link> },
+            { header: "Txn Hash", accessor: "hash", sortable: true, cell: ({ value }) => <Link className="links link" to={`/transaction/${value}`}>{value}</Link> },
+            { header: "Block", accessor: "blockNumber", sortable: true, cell: ({ value }) => <Link className="links link" to={`/block/${value}`}>{value}</Link> },
+            { header: "From", accessor: "from", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
             { header: "To", accessor: "to", sortable: true, cell: ({ value }) => <Link className="links link " to={`/address/${value}`}>{value}</Link> },
-            { header: "Hash", accessor: "hash", sortable: true, cell: ({ value }) => <Link className="links link " to={`/transaction/${value}`}>{value}</Link> },
-            { header: "Category", accessor: "category", sortable: true },
-            { header: "Unique ID", accessor: "uniqueId", sortable: true },
-            { header: "Value", accessor: "value", sortable: true }
+            { header: "Value", accessor: "value", sortable: true, cell: ({ value }) => { const values = Utils.formatUnits(BigInt(parseInt(value?._hex, 16)), 'ether'); return <p>{values.toString()} ETH</p> } },
         ]
     )
+
+
+    useEffect(() => {
+        const getTransactions = async () => {
+            setSpinner(true)
+            if (typeof state === 'number') {
+                let allTransactions = await alchemy.core.getBlock(state);
+                setDataGeneral(allTransactions)
+                setSpinner(false)
+            }
+           if(Array.isArray(state)) {
+                let transactions = new Object()
+                transactions.transactions = state
+                setDataGeneral(transactions)
+                setSpinner(false)
+            }
+
+
+        }
+        getTransactions()
+
+    }, [])
+
 
 
     return (
 
         <TransactionsContainer>
+            {spinner ? <LoadingSpinner /> : null}
             <h1>Transactions:</h1>
-
+            <div className='allBlock_Container'>
+                <Tables
+                    Columns={Columns}
+                    buttons={buttons}
+                    category={category}
+                    setCategory={setCategory}
+                    type={'transactions'}
+                    transactions={dataGeneral}
+                    setSpinner={setSpinner}
+                />
+            </div>
         </TransactionsContainer>
     )
 }

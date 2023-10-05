@@ -79,16 +79,23 @@ function Transaction() {
 
     useEffect(() => {
         const transac = async () => {
-            const alltxn = await alchemy.core.getTransaction(id)
-            setBlock(alltxn?.blockNumber)
-            setFrom(alltxn?.from)
-            setTo(alltxn?.to)
-            setGasPrice(Utils.formatUnits(parseInt(alltxn?.gasPrice?._hex, 16), 'gwei'))
-            let values = Utils.formatUnits(BigInt(parseInt(alltxn?.value?._hex, 16)), 'ether')
+            try {
+                const alltxn = await alchemy.core.getTransaction(id)
+                setTransactions(alltxn)
+            } catch (error) {
+                console.log(error)
+            }
+            if(!transactions) return
+            setBlock(transactions?.blockNumber)
+            setFrom(transactions?.from)
+            setTo(transactions?.to)
+
+            setGasPrice(Utils.formatUnits(parseInt(transactions?.gasPrice?._hex, 16), 'gwei'))
+            let values = Utils.formatUnits(BigInt(parseInt(transactions?.value?._hex, 16)), 'ether')
             setValue(values)
         }
         transac()
-    }, [])
+    }, [id, transactions])
 
 
     useEffect(() => {
@@ -135,7 +142,7 @@ function Transaction() {
                         Value:
                     </h3>
                     <p>
-                        {value} Ether
+                        {value ? value : 0} Ether
                     </p>
                 </div>
 
