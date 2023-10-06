@@ -2,6 +2,8 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from "react-router-dom"
+const { Alchemy, Network } = require("alchemy-sdk");
 
 const SearchBars = styled.div`
     display: flex;
@@ -47,20 +49,78 @@ const SearchBars = styled.div`
     }
 `
 
+const settings = {
+    apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
+    network: Network.ETH_MAINNET,
+};
+const alchemy = new Alchemy(settings);
 
 /* Component Header (component to display header) */
 function SearchBar() {
+    const [search, setSearch] = useState("")
+    const [filter, setFilter] = useState("All filter")
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const handleEnter = (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault()
+                handleSubmit()
+            }
+        }
+        window.addEventListener("keydown", handleEnter)
+        return () => {
+            window.removeEventListener("keydown", handleEnter)
+        }
+    }, [search])
+
+    const handleSubmit = (e) => {
+
+        let re = /^[0-9]{8}$/;
+        if (search.length === 66 || filter === "Txn") {
+            try {
+                navigate(`/transaction/${search}`)
+            } catch (error) {
+                console.log(error)
+                navigate(`*`, { state: error })
+            }
+        }
+        if (search.length === 42 || filter === "Address") {
+            const userOrnot = async () => {
+                try {
+                    const result = await alchemy.core.isContractAddress(search)
+
+                    if (result) {
+                        navigate(`/token/${search}`)
+                    }
+                    else {
+                        navigate(`/address/${search}`)
+                    }
+                } catch (error) {
+                    console.log(error)
+                    navigate(`*`, { state: error })
+                }
+            }
+            userOrnot()
+            console.log('it s an address')
+        }
+        if (re.test(search)) {
+            navigate(`/block/${search}`)
+            console.log('it s a block')
+        }
+    }
 
 
     return (
         <SearchBars>
-            <select >
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
                 <option value="All filter" >All filter</option>
                 <option value="Address">Address</option>
-                <option value="Tokens">Tokens</option>
+                <option value="Txn">Txn</option>
+                <option value="Block">Block</option>
             </select>
-            <input type="text" placeholder="Search by address / Txn Hash / Block / Token" />
-            <button type="submit">Search</button>
+            <input type="text" placeholder="Search by address / Txn Hash / Block / Token" onChange={(e) => setSearch(e.target.value)} />
+            <button type="submit" onClick={() => handleSubmit()} >Search</button>
         </SearchBars>
     )
 }
