@@ -15,11 +15,15 @@ const SearchBars = styled.div`
     height: 50px;
     margin: auto;
     padding-bottom: 60px;
+    @media (max-width: 800px) {
+
+    }
     select {
         width: 150px;
         height: 42px;
         border-radius: 5px 0px 0px 5px;
         border: 0;
+        
     }
     select:focus {
         outline: none;
@@ -30,6 +34,9 @@ const SearchBars = styled.div`
         margin: 0;
         border: 0;
         border-radius: 0px;
+        @media (max-width: 800px) {
+            width: auto;
+        }
     }
     input:focus {
         outline: none;

@@ -17,6 +17,9 @@ const BlockContainers = styled.div`
     padding: 50px;
     width: 100%;
     margin: 30px;
+    @media (max-width: 800px) {
+        padding: 20px;
+    }
     h1 {
         font-size: 22px;
         align-self: center;

@@ -17,6 +17,19 @@ const HomeContainer = styled.div`
         margin-right: 150px;
         margin-left: 150px;
         border-radius: 20px;
+    @media (max-width: 1200px) {
+        margin-right: 50px;
+        margin-left: 50px;
+    }
+    @media (max-width: 800px) {
+        margin-right: 20px;
+        margin-left: 20px;
+        text-align: center;
+    }
+    @media (max-width: 400px) {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
     .search_Container {
         display: flex;
         flex-direction: column;
@@ -28,6 +41,15 @@ const HomeContainer = styled.div`
         margin-left: 150px; 
         border-radius: 20px;
         padding: 50px;
+        @media (max-width: 1200px) {
+            margin-right: 50px;
+            margin-left: 50px;
+        }
+        @media (max-width: 800px) {
+            margin-right: 20px;
+            margin-left: 20px;
+            text-align: center;
+        }
         h1 {
             font-size: 22px;
             align-self: center;
@@ -39,6 +61,16 @@ const HomeContainer = styled.div`
         display: flex;
         justify-content: space-around;
         padding: 30px;
+        @media (max-width: 1200px) {
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+        @media (max-width: 800px) {
+            margin: 0;
+            
+            text-align: center;
+        }
     }
 `
 const settings = {

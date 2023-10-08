@@ -14,7 +14,9 @@ const InformationContainer = styled.div`
     padding: 50px;
     color: white;
     width: 350px;
-    margin: auto;
+    @media (max-width: 500px) {
+        padding: 20px;
+    }
     .first_Container {
         height: 50%;
         width: 100%;

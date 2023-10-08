@@ -18,6 +18,14 @@ const Headers = styled.header`
     width: 90%;
     background-color: rgb(255,255,255, 0.9);
     padding-bottom: 70px;
+    @media (max-width: 1200px) {
+        margin-left: 45px;
+        margin-right: 50px;
+    }
+    @media (max-width: 800px) {
+        margin-left: 15px;
+        margin-right: 20px;
+    }
     .logo {
         font-size: 1.5rem;
         font-weight: 700;
@@ -45,6 +53,10 @@ const Headers = styled.header`
         }
         .links:hover {
             color: black;
+        }
+        @media (max-width: 800px) {
+            width: 50%;
+            padding-right: 15px;
         }
     }
 `
@@ -80,7 +92,6 @@ const [block, setBlock] = useState();
             <div className="nav">
                 <Link to='/blocks' className="links">Block</Link>
                 <Link to='/transactions' state={block} className="links">Transaction</Link>
-                <Link to='/address' className="links">NFT</Link>
             </div>
         </Headers>
     )

@@ -42,7 +42,7 @@ export default function Durée() {
     // Return LineChart component
     return (
         <LineChart width={450} height={250} data={data}
-            margin={{ top: 5, right: 12, left: 12, bottom: 5 }} style={{ background: 'rgb(255,255,255, 0.2)', borderRadius: 10, margin: '50px', boxShadow: '0px 0px 10px 0px rgba(255,255,255,0.75)' }}>
+            margin={{ top: 5, right: 12, left: 12, bottom: 5 }} style={{ background: 'rgb(255,255,255, 0.2)', borderRadius: 10, margin: '50px', boxShadow: '0px 0px 10px 0px rgba(255,255,255,0.75)'}}>
             <text
                 x='7%'
                 y='10%'
