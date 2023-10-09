@@ -27,6 +27,12 @@ const Styles = styled.div`
         box-shadow: 0px 0px 10px 0px rgba(255,255,255, 0.75);
         color: white;
         padding: 10px;
+        @media (max-width: 1400px) {
+            width: 100%;
+        }
+        @media (max-width: 1000px) {
+           font-size: 12px;
+        }
     }
     .cell {
         color: white;
@@ -52,6 +58,9 @@ const Styles = styled.div`
     .Columns {
         font-weight: bold;
         background: none;
+        @media (max-width: 1000px) {
+              font-size: 15px;
+        }
     }
 `
 

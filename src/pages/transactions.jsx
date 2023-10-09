@@ -22,6 +22,20 @@ margin-left: 150px;
 border-radius: 20px;
 color: white;
 padding-bottom: 70px;
+@media (max-width: 1400px) {
+    margin-right: 100px;
+    margin-left: 100px;
+}
+@media (max-width: 1200px) {
+    margin-right: 50px;
+    margin-left: 50px;
+    overflow: auto;
+}
+@media (max-width: 800px) {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
 h1 {
     font-size: 22px;
     align-self: center;
@@ -89,6 +103,18 @@ li {
 }
 .dropdownToken:hover {
     background-color: rgb(34, 114, 255, 0.8);
+}
+.allBlock_Container {
+    margin: auto;
+    @media (max-width: 1200px) {
+        margin: 0;
+    }
+}
+
+.links {
+    @media (max-width: 1000px) {
+        font-size: 13px;
+    }
 }
 `
 

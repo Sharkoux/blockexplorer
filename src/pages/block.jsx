@@ -16,6 +16,19 @@ const BlocksContainer = styled.div`
     border-radius: 20px;
     color: white;
     padding-bottom: 100px;
+    @media (max-width: 1400px) {
+        margin-right: 100px;
+        margin-left: 100px;
+    }
+    @media (max-width: 1200px) {
+        margin-right: 50px;
+        margin-left: 50px;
+        
+    }
+    @media (max-width: 800px) {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
     h1 {
         font-size: 22px;
         align-self: center;
@@ -33,7 +46,10 @@ const BlocksContainer = styled.div`
         align-items: center;
         justify-content: center;
         width: 40%;
-        
+        overflow: hidden;
+        @media (max-width: 1200px) {
+            width: 100%;
+        }
     }
     .allBlock_Container {
         display: flex;

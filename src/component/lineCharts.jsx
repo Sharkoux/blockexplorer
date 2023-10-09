@@ -11,7 +11,16 @@ import {
 import styled from "styled-components";
 
 
+const StyledLineChart = styled(LineChart)`
+    background: rgb(255,255,255, 0.2);
+    border-radius: 10px;
+    margin: 50px;
+    box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75);
 
+    @media (max-width: 600px) {
+        display: none;
+    }
+`;
 
 
 /**
@@ -41,8 +50,8 @@ export default function Durée() {
 
     // Return LineChart component
     return (
-        <LineChart width={450} height={250} data={data}
-            margin={{ top: 5, right: 12, left: 12, bottom: 5 }} style={{ background: 'rgb(255,255,255, 0.2)', borderRadius: 10, margin: '50px', boxShadow: '0px 0px 10px 0px rgba(255,255,255,0.75)'}}>
+        <StyledLineChart width={450} height={250} data={data}
+            margin={{ top: 5, right: 12, left: 12, bottom: 5 }} >
             <text
                 x='7%'
                 y='10%'
@@ -55,6 +64,6 @@ export default function Durée() {
             <YAxis tickLine={false} axisLine={false} hide={true} padding={{ top: 70 }} />
             <Line type="monotone" dataKey="sessionLength" stroke="white" legendType="none" />
             <ReferenceArea />
-        </LineChart>
+        </StyledLineChart>
     )
 }

@@ -26,6 +26,10 @@ const Headers = styled.header`
         margin-left: 15px;
         margin-right: 20px;
     }
+    @media (max-width: 500px) {
+        flex-direction: column;
+        padding-bottom: 45px;
+    }
     .logo {
         font-size: 1.5rem;
         font-weight: 700;
@@ -35,6 +39,9 @@ const Headers = styled.header`
         display: flex;
         align-items: center;
         margin-top: 20px;
+        @media (max-width: 500px) {
+            margin-left: -14px;
+        }
     }
     .logo_img {
         width: 2.5rem;

@@ -68,7 +68,6 @@ const HomeContainer = styled.div`
         }
         @media (max-width: 800px) {
             margin: 0;
-            
             text-align: center;
         }
     }

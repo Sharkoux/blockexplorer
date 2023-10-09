@@ -19,11 +19,30 @@ margin-left: 150px;
 border-radius: 20px;
 color: white;
 padding-bottom: 70px;
+@media (max-width: 1400px) {
+    margin-right: 100px;
+    margin-left: 100px;
+}
+@media (max-width: 1200px) {
+    margin-right: 50px; 
+    margin-left: 50px;
+}
+@media (max-width: 800px) {
+    margin-right: 20px;
+    margin-left: 20px;
+}
 h1 {
     font-size: 22px;
     align-self: center;
+    text-align: center;
     padding-top: 20px;
     color: white;
+    @media (max-width: 1200px) {
+        font-size: 18px;
+    }
+    @media (max-width: 800px) {
+        font-size: 14px;
+    }
 }
 .informationTransaction_Container {
     display: flex;
@@ -37,19 +56,25 @@ h1 {
     align-items: center;
     justify-content: center;
     width: 400px;
-    
-    
+    overflow: hidden;
+    @media (max-width: 800px) {
+        font-size: 14px;
+        margin: 20px;
+    }
 }
 .allBlock_Container {
     display: flex;
     justify-content: space-around;
     padding: 30px;
     flex-wrap: wrap;
-    width: 100%;
+    
 }
 .link {
     color: white;
     font-size: 17px;
+    @media (max-width: 800px) {
+        font-size: 14px;
+    }
 }
 h3 {
     color: rgb(100, 101, 115, 0.9);

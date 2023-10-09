@@ -16,6 +16,7 @@ const InformationContainer = styled.div`
     width: 350px;
     @media (max-width: 500px) {
         padding: 20px;
+        
     }
     .first_Container {
         height: 50%;
@@ -23,6 +24,9 @@ const InformationContainer = styled.div`
         display: flex;
         border-bottom: 1px solid white;
         align-items: center;
+        @media (max-width: 500px) {
+            justify-content: center;
+        }
     }
     .second_Container {
         height: 50%;
@@ -30,6 +34,9 @@ const InformationContainer = styled.div`
         display: flex;
         margin-top: 15px;
         align-items: center;
+        @media (max-width: 500px) {
+            justify-content: center;
+        }
     }
     img {
         height: 35px;
