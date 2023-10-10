@@ -10,6 +10,7 @@ import useGetTotalSupply from '../hook/useGetTotalSupply'
 /* global BigInt */
 
 const TokenContainer = styled.div`
+position: relative;
 display: flex;
 flex-direction: column;
 min-height: calc(100vh - 100px);
@@ -130,7 +131,7 @@ const alchemy = new Alchemy(settings);
 function Token() {
     const [suply, setSuply] = useState(null)
     const [dataGeneral, setDataGeneral] = useState(null)
-    const [spinner, setSpinner] = useState(false);
+    const [spinner, setSpinner] = useState(true);
 
     const { id } = useParams()
 

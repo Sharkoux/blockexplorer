@@ -11,6 +11,7 @@ import useGetTotalSupply from '../hook/useGetTotalSupply'
 /* global BigInt */
 
 const BlocksContainer = styled.div`
+position: relative;
 display: flex;
 flex-direction: column;
 min-height: calc(100vh - 100px);

@@ -10,6 +10,7 @@ import Tables from '../component/tables';
 /* global BigInt */
 
 const AddressContainer = styled.div`
+position: relative;
 display: flex;
 flex-direction: column;
 min-height: calc(100vh - 100px);

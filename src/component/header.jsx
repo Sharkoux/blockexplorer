@@ -18,6 +18,7 @@ const Headers = styled.header`
     width: 90%;
     background-color: rgb(255,255,255, 0.9);
     padding-bottom: 70px;
+    z-index: 1001;
     @media (max-width: 1200px) {
         margin-left: 45px;
         margin-right: 50px;

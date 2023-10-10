@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 
 const SpinnerContainer = styled.div`
-position: fixed;
+position: absolute;
 background: rgb(34, 114, 255, 0.7);
 z-index: 1000;
-width: 1814px;
+width: 100%;
 height: 100%;
 border-radius: 20px;
 #loading {
