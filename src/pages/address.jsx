@@ -86,6 +86,7 @@ ul {
     overflow-y: scroll;
     border-radius: 10px;
     max-height: 250px;
+    width: 100%;
     &::-webkit-scrollbar {
         width: 0px;
     };

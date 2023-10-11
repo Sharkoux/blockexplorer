@@ -27,7 +27,7 @@ const BankInfoTicker = ({ data, speed = 2 }) => {
 
 
     return (
-        <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', position: 'fixed', top: '0', background: 'rgb(34, 114, 255, 0.9)', height: '25px', borderBottom: '3px solid rgba(255,255,255,0.75) ' }}>
+        <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', position: 'fixed', top: '0', background: 'rgb(34, 114, 255, 0.9)', height: '25px', borderBottom: '3px solid rgba(255,255,255,0.75) ', zIndex: '1002' }}>
             <span
                 ref={tickerRef}
                 style={{
