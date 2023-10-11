@@ -89,7 +89,6 @@ function Home() {
     const [prices, setPrice] = useState(null);
     const [marketCaps, setMarketCap] = useState(null);
 
-    console.log(process.env.REACT_APP_ALCHEMY_API_KEY)
 
     const { price, GetData, GetPrice, marketCap } = useGetData({ currencies: 'usd' })
 
