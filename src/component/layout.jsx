@@ -5,6 +5,7 @@ import Footer from './footer'
 import { createGlobalStyle } from 'styled-components'
 import BankInfoTicker from './InfoTicker'
 import useGetData from '../hook/useGetData'
+import { Analytics } from '@vercel/analytics/react';
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -83,6 +84,7 @@ const Layout = ({ children }) => {
             <main>
                 {children}
                 <Outlet />{' '}
+                <Analytics />
             </main>
             <Footer />
         </React.Fragment>
