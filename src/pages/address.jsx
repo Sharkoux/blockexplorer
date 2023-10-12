@@ -184,7 +184,7 @@ function Address() {
             for (let i = 0; i < nonZeroBalances.length; i++) {
                 const metadata = await alchemy.core.getTokenMetadata(nonZeroBalances[i].contractAddress);
                 let balance = nonZeroBalances[i].tokenBalance / Math.pow(10, metadata.decimals);
-                newBalances.push({ name: metadata.name, balance: balance, symbol: metadata.symbol });
+                newBalances.push({ name: metadata.name, balance: balance, symbol: metadata.symbol, address: nonZeroBalances[i].contractAddress });
             }
             const filterdBalances = newBalances.filter(token => !token.symbol.includes('Visit') && !token.symbol == '' && !token.balance == '0')
             setAllBalance(filterdBalances);
@@ -223,7 +223,7 @@ function Address() {
                             {allBalance?.map((token, index) => {
                                 return (
                                     <li key={index}>
-                                        {token.name}: {token.balance} {token.symbol}
+                                        <Link className='links link' to={`/token/${token.address}`} >{token.name}</Link>: {token.balance} {token.symbol}
                                     </li>
                                 );
                             })}
